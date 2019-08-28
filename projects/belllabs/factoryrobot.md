@@ -10,6 +10,8 @@ To illustrate how Nokia's 5G networking products can be beneficial for a future 
 
 The first thing we had to do was determine if this was a hardware or software problem. Initially, it looks like everything can be changed in software - all we needed to do was convert the robot from using the old software to the new software. However, the new software stack required a specific motorcontroller type to maintain consistency with the other robots in the demo. Then it turned out the power distribution system was inconsistent at best, and also needed to be upgraded. The Inertial Measurement Unit (IMU), central processor, rotor motors, all had to then be replaced for similar reasons. So it really turned out to be both a hardware and software problem.
 
+<img src="https://cdn.joshuaschmidt.tech/blogfiles/5d65d1159f2764f31cc05070/d7482960-c92e-11e9-a93d-2f87021913f1/original" alt="calibrate" class="img-fluid" data-width="1280" data-height="720">
+
 ## Swerve Drive
 
 The main complication with this robot is that it is using swerve drive. Swerve drive requires 8 motors, 2 for each wheel, with of of those 2 for rotating the wheel and the other for driving the wheel. This allows for full kinematic motion, theoretically without slippage and a full 3 degrees of freedom (x, y, angular). This differentiated the robot from the others, which were all differential drive - tank drive without the treads. We wanted to preserve this aspect of the robots because it allows for superior motion and better results when doing odometry - motor movement feedback. However this requires changing the codebase and hardware to ensure that it is capable of that full motion. On the hardware side, there were two major changes that needed to be made - the rotor motors needed to be replaced because they were underpowered and kept breaking. And secondly the cables going to the drive motors for speed feedback - using encoders, and motor power needed to be managed as the wheels rotate around. The original manufacturing team did not manage the cables and instead had the software people limit the motion to movement in the x direction or spinning in place, but we wanted to allow for a combination of movements in the x, y, and omega (angular) direction. Therefore cable management would be a big issue.
@@ -23,6 +25,8 @@ Whenever you have a big challenge ahead of you, you always break it down into si
 ### ROS
 
 We were using robot operating system for handling all of the message data. ROS is a misnomer - it is not an operating system at all, but instead a framework for connecting a robot together and to the cloud. It works in a publish-subscribe model, where the different nodes, such as the IMU, publish to a topic (`/imu`), which anyone in the network can then subscribe to to use the data associated (navigation in the cloud for example). The robot needed to publish all the correct topics so that the cloud side could subscribe to the topics it needs to navigate and interpret the current state of the robot. The most important topic is command velocity, which was used by move-base to tell the robot at what velocity it should move at any given time in the three degrees of freedom. Then using the feedback from the odometry topic, the navigation is then able to recalculate how fast the robot should move at the next cycle.
+
+<img src="https://cdn.joshuaschmidt.tech/blogfiles/5d65d1159f2764f31cc05070/be7e5620-c92e-11e9-a93d-2f87021913f1/original" alt="move" class="img-fluid" data-width="1280" data-height="720">
 
 ### Kinematics
 
