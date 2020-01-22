@@ -1,5 +1,3 @@
-# Factoryrobot 2.0
-
 This summer (2019) I somehow managed to get an internship at Bell Labs in Murray Hill. For those of you who don't know, Bell Labs is an international research facility known for inventing the first transistor, developing Unix, and winning many Nobel prizes in the process. Interning there is a big deal. I was part of the BR Lab, which stands for BHAG (big hairy audacious goals) Realization lab (super-acronym, I know), and it is therefore focused on the most futuristic, long-term moonshot projects. It is similar to Google's X Labs. Bell Labs was split from AT&T in 1996 (antitrust laws) and added to Lucent, later merging with Alcatel to become Alcatel-Lucent, and then this merged company was bought by Nokia in 2016. So now Bell Labs does research under the umbrella and funding of Nokia, which is not really a phone company anymore, positioning itself instead as a networking solutions company. Nokia is pioneering 5G technology and IoT infrastructure, and in turn a lot of the technology Bell Labs is researching is focused on internet-connected, high-bandwidth, 5G and cloud solutions. In the BR lab, I was working on an autonomous robot, a robot that can map and navigate the world around it, and additionally can interact with physical objects using a forklift or other modular devices. It was using the local 4G LTE and 5G infrastructure, in addition to WiFi, along with local "edge cloud" solutions, to offload most of the computation.
 
 ## Design Challenge
@@ -10,7 +8,7 @@ To illustrate how Nokia's 5G networking products can be beneficial for a future 
 
 The first thing we had to do was determine if this was a hardware or software problem. Initially, it looks like everything can be changed in software - all we needed to do was convert the robot from using the old software to the new software. However, the new software stack required a specific motorcontroller type to maintain consistency with the other robots in the demo. Then it turned out the power distribution system was inconsistent at best, and also needed to be upgraded. The Inertial Measurement Unit (IMU), central processor, rotor motors, all had to then be replaced for similar reasons. So it really turned out to be both a hardware and software problem.
 
-<img src="https://cdn.joshuaschmidt.tech/blogfiles/5d65d1159f2764f31cc05070/d7482960-c92e-11e9-a93d-2f87021913f1/original" alt="calibrate" class="img-fluid" data-width="1280" data-height="720">
+<img data-src="https://cdn.joshuaschmidt.tech/projectfiles/5e2795401ff1303f7b382670/3288b410-3cad-11ea-bf47-fb47d5530755/original" placeholder-original="https://cdn.joshuaschmidt.tech/projectfiles/5e2795401ff1303f7b382670/3288b410-3cad-11ea-bf47-fb47d5530755/placeholder/original" src="https://cdn.joshuaschmidt.tech/projectfiles/5e2795401ff1303f7b382670/3288b410-3cad-11ea-bf47-fb47d5530755/placeholder/blur" class="lazy img-fluid gif" alt="calibrate" data-width="1280" data-height="720">
 
 ## Swerve Drive
 
@@ -26,7 +24,7 @@ Whenever you have a big challenge ahead of you, you always break it down into si
 
 We were using robot operating system for handling all of the message data. ROS is a misnomer - it is not an operating system at all, but instead a framework for connecting a robot together and to the cloud. It works in a publish-subscribe model, where the different nodes, such as the IMU, publish to a topic (`/imu`), which anyone in the network can then subscribe to to use the data associated (navigation in the cloud for example). The robot needed to publish all the correct topics so that the cloud side could subscribe to the topics it needs to navigate and interpret the current state of the robot. The most important topic is command velocity, which was used by move-base to tell the robot at what velocity it should move at any given time in the three degrees of freedom. Then using the feedback from the odometry topic, the navigation is then able to recalculate how fast the robot should move at the next cycle.
 
-<img src="https://cdn.joshuaschmidt.tech/blogfiles/5d65d1159f2764f31cc05070/be7e5620-c92e-11e9-a93d-2f87021913f1/original" alt="move" class="img-fluid" data-width="1280" data-height="720">
+<img data-src="https://cdn.joshuaschmidt.tech/projectfiles/5e2795401ff1303f7b382670/4a57ac90-3cad-11ea-bf47-fb47d5530755/original" placeholder-original="https://cdn.joshuaschmidt.tech/projectfiles/5e2795401ff1303f7b382670/4a57ac90-3cad-11ea-bf47-fb47d5530755/placeholder/original" src="https://cdn.joshuaschmidt.tech/projectfiles/5e2795401ff1303f7b382670/4a57ac90-3cad-11ea-bf47-fb47d5530755/placeholder/blur" class="lazy img-fluid gif" alt="move" data-width="1280" data-height="720">
 
 ### Kinematics
 
@@ -35,6 +33,8 @@ At the heart of this lies kinematics. Inverse kinematics was used to calculate g
 ## Other things
 
 Once all of the math was figured out, there was not much more to do on the software side besides troubleshooting, ensuring it works with ROS and the rest of the stack, and actually getting the robot moving correctly. On the hardware side, once the improved power distribution was done, the rotor motors needed to be replaced, the wiring and cable management for the drive motors was next, and the motorcontrollers after that. We additionally wanted to add a break-out panel on the top of the robot to allow for easy access and modification, consisting of 5V, 12V, and 9V barrel plugs, usb and ethernet. Additionally we wanted to make the lidar and camera easily replaceable, and we wanted to make the front end effector modular, so that the forklift could be replaced with something different. We used ROS serial to accomplish this, so that when the arduino controlling the forklift is plugged in it would publish and subscribe to relevant ROS topics. Different from, for example, a robotic arm.
+
+<img data-src="https://cdn.joshuaschmidt.tech/projectfiles/5e2795401ff1303f7b382670/771bc9a0-3cad-11ea-bf47-fb47d5530755/original" src="https://cdn.joshuaschmidt.tech/projectfiles/5e2795401ff1303f7b382670/771bc9a0-3cad-11ea-bf47-fb47d5530755/blur" class="lazy img-fluid" alt="finished robot" data-width="2080" data-height="1560">
 
 ## Last thoughts
 
